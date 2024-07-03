@@ -13,19 +13,20 @@ logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %
 classifier = joblib.load('models/trained_model.pkl')
 
 # Command to capture audio from the combined monitor source
-parec_command = ["parec", "-d", "combined.monitor", "--raw"]
+#parec_command = ["parec", "-d", "combined.monitor", "--raw"]
+parec_command = ["parec", "-d", "alsa_output.pci-0000_06_02.0.analog-stereo.monitor", "--raw"]
 
 # Open the subprocess to capture audio data
 parec_process = subprocess.Popen(parec_command, stdout=subprocess.PIPE)
 
 # Threshold and duration settings
 consistency_threshold = 40  # Number of consistent frames to consider as a state change
-tolerance_threshold = 3  # Tolerance for misclassifications
+tolerance_threshold = 3.5  # Tolerance for misclassifications
 buffer_size = 4096
 
 # Volume levels
 NORMAL_VOLUME = 100
-REDUCED_VOLUME = 45  # Adjust this value as needed
+REDUCED_VOLUME = 50  # Adjust this value as needed
 
 # Function to process audio data and extract MFCCs
 def process_audio(data, sr=44100, n_fft=1024):
